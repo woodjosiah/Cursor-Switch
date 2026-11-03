@@ -4,17 +4,17 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <channel>
         <title>Cursor Switch</title>
         <item>
-            <title>1.0.0-beta.4</title>
-            <pubDate>Sat, 31 Oct 2026 22:20:10 -0500</pubDate>
-            <sparkle:version>5</sparkle:version>
-            <sparkle:shortVersionString>1.0.0-beta.4</sparkle:shortVersionString>
+            <title>1.0.0-beta.5</title>
+            <pubDate>Tue, 03 Nov 2026 12:18:01 -0600</pubDate>
+            <sparkle:version>6</sparkle:version>
+            <sparkle:shortVersionString>1.0.0-beta.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
-            <description sparkle:format="markdown"><![CDATA[- Show clicks with Pulse ring or Ripple, with customizable size and colors.
+            <description sparkle:format="markdown"><![CDATA[- Optionally preserve macOS cursors for links, text, and window resizing (experimental).
 ]]></description>
-            <enclosure url="https://github.com/woodjosiah/Cursor-Switch/releases/download/v1.0.0-beta.4/CursorSwitch-1.0.0-beta.4.dmg" length="3573381" type="application/octet-stream" sparkle:edSignature="j46B4Z5LcJIzFE/oKYCjWRAof4thxIBPuakxw0Wq5InlwGpCiQUF1xIsDCyWG1KSAnMeEqxrIzliOBUg9GMDBg=="></enclosure>
+            <enclosure url="https://github.com/woodjosiah/Cursor-Switch/releases/download/v1.0.0-beta.5/CursorSwitch-1.0.0-beta.5.dmg" length="3612886" type="application/octet-stream" sparkle:edSignature="30Tk0sJlfhDPYT/orR0OA7l9xdKKFb95hO2iCtlh2bZyAZQec454QuwFk6Z208qEELirMDxrrPwU1BhRNWKRAg=="></enclosure>
         </item>
     </channel>
 </rss><!-- sparkle-signatures:
-edSignature: SsQTrhEnLw+qhW7hf/Sl3uam22A1tFFGkSiAx4pG4t+elV/ZuQ6MY6GovlaTN4NY3pMzqpzdPyCsixlp7FSXAQ==
-length: 1239
+edSignature: Vp0ARjN7i1w+yXakchgy8TSZpkcGvB73f2BpLFrOHthDi1On8C3mjJHZgzEqvT9RNLKJjIufFArSYrhVr6GNCQ==
+length: 1252
 -->
