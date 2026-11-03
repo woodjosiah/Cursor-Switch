@@ -14,7 +14,8 @@ final class CursorStore {
             if let data = try? JSONEncoder().encode(safe) { defaults.set(data, forKey: Self.profileKey) }
             if isCustom {
                 if CursorArtwork.validationMessage(for: safe) == nil {
-                    renderer.update(profile: safe)
+                    if !isShowingSystemCursor { renderer.update(profile: safe) }
+                    configureContextualCursors()
                 } else {
                     selectDefault()
                 }
@@ -24,17 +25,22 @@ final class CursorStore {
     private(set) var isCustom = false
     var errorMessage: String?
     var shortcutAvailable = true
+    private(set) var isShowingSystemCursor = false
+    private(set) var contextualCursorUnavailable = false
 
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let visibility: any CursorVisibility
     @ObservationIgnored private let renderer: any CursorRendering
+    @ObservationIgnored private let systemCursorMonitor: any SystemCursorMonitoring
 
     init(defaults: UserDefaults = .standard,
          visibility: (any CursorVisibility)? = nil,
-         renderer: (any CursorRendering)? = nil) {
+         renderer: (any CursorRendering)? = nil,
+         systemCursorMonitor: (any SystemCursorMonitoring)? = nil) {
         self.defaults = defaults
         self.visibility = visibility ?? NativeCursorVisibility()
         self.renderer = renderer ?? CursorOverlay()
+        self.systemCursorMonitor = systemCursorMonitor ?? SystemCursorMonitor()
         if let data = defaults.data(forKey: Self.profileKey),
            let saved = try? JSONDecoder().decode(CursorProfile.self, from: data) {
             profile = saved.sanitized
@@ -55,6 +61,7 @@ final class CursorStore {
         do {
             try visibility.hide()
             isCustom = true
+            configureContextualCursors()
         } catch {
             visibility.restore()
             renderer.dismiss()
@@ -63,9 +70,12 @@ final class CursorStore {
     }
 
     func selectDefault() {
+        systemCursorMonitor.stop()
         visibility.restore()
         renderer.dismiss()
         isCustom = false
+        isShowingSystemCursor = false
+        contextualCursorUnavailable = false
         errorMessage = nil
     }
 
@@ -74,4 +84,38 @@ final class CursorStore {
     }
 
     func resetProfile() { profile = CursorProfile() }
+
+    private func configureContextualCursors() {
+        systemCursorMonitor.stop()
+        contextualCursorUnavailable = false
+        guard profile.preservesContextualCursors else {
+            if isShowingSystemCursor { applySystemCursorState(.arrow) }
+            return
+        }
+        systemCursorMonitor.start { [weak self] state in
+            guard let self, self.isCustom, self.profile.preservesContextualCursors else { return }
+            self.applySystemCursorState(state)
+        }
+    }
+
+    private func applySystemCursorState(_ state: SystemCursorState) {
+        contextualCursorUnavailable = state == .unavailable
+        let showSystem = state != .arrow
+        guard showSystem != isShowingSystemCursor else { return }
+        if showSystem {
+            // Balance all hides and stop the visibility watchdog before yielding.
+            visibility.restore()
+            renderer.dismiss()
+            isShowingSystemCursor = true
+        } else {
+            renderer.show(profile: profile)
+            do {
+                try visibility.hide()
+                isShowingSystemCursor = false
+            } catch {
+                selectDefault()
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
 }

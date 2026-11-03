@@ -70,6 +70,12 @@ struct SettingsView: View {
                 .labelsHidden()
                 .frame(width: 160)
             }
+            VStack(alignment: .leading, spacing: 5) {
+                Toggle("Preserve contextual cursors", isOn: $store.profile.preservesContextualCursors)
+                Text("Experimental. Use macOS cursors for links, text, resizing, and dragging.")
+                    .font(.callout).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 
@@ -79,7 +85,14 @@ struct SettingsView: View {
                 Label(message, systemImage: "exclamationmark.triangle")
                     .foregroundStyle(.red).font(.callout).fixedSize(horizontal: false, vertical: true)
             }
-            Text(store.isCustom ? "Changes apply as you edit. Your cursor keeps the same appearance over text and links."
+            if store.contextualCursorUnavailable {
+                Text("Cursor detection is unavailable. Your macOS pointer is active; turn off Preserve contextual cursors to use your custom cursor.")
+                    .font(.callout).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Text(store.isCustom ? (store.profile.preservesContextualCursors
+                 ? "Changes apply as you edit. Contextual cursors keep their macOS appearance."
+                 : "Changes apply as you edit. Your cursor keeps the same appearance over text and links.")
                  : "Your macOS pointer is active. Select Custom to use the previewed cursor.")
                 .font(.callout).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

@@ -11,6 +11,7 @@ struct CursorProfile: Codable, Equatable {
     var imagePNG: Data?
     var imageName: String?
     var hotspot: CursorHotspot = .automatic
+    var preservesContextualCursors = false
 
     init() {}
 
@@ -27,6 +28,7 @@ struct CursorProfile: Codable, Equatable {
         imagePNG = try values.decodeIfPresent(Data.self, forKey: .imagePNG)
         imageName = try values.decodeIfPresent(String.self, forKey: .imageName)
         hotspot = try values.decodeIfPresent(CursorHotspot.self, forKey: .hotspot) ?? .automatic
+        preservesContextualCursors = try values.decodeIfPresent(Bool.self, forKey: .preservesContextualCursors) ?? false
     }
 
     static let sizeRange = 18.0...120.0
