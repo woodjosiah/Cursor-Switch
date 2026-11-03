@@ -37,7 +37,8 @@ and quitting restores it too.
 
 Choose **Check for Updates…** in the menu bar to get newer beta builds.
 
-Custom cursors keep the same appearance over text and links. As this is a beta,
+Turn on **Preserve contextual cursors** to try native macOS cursors for links, text,
+and window resizing. This experimental option is off by default. As this is a beta,
 fullscreen apps and multiple displays may still have quirks.
 
 Found an issue? [Send feedback](https://github.com/woodjosiah/Cursor-Switch/issues)

@@ -56,6 +56,7 @@ def package(args):
         shutil.rmtree(stage)
     stage.mkdir()
     run("ditto", app, stage / "Cursor Switch.app")
+    shutil.copy2(ROOT / "LICENSE", stage / "LICENSE.txt")
     (stage / "Applications").symlink_to("/Applications")
     signed_note = ("This beta app is Developer ID signed and notarized by Apple.\n" if app_notarized else
                    "This beta is not notarized. macOS may block its first launch.\n")
@@ -67,7 +68,9 @@ def package(args):
         "Choose Default or Custom from the menu bar. Customize… opens shapes, symbols, emoji, and image import.\n"
         "Control–Option–Command–C switches cursors. Quit restores the normal macOS cursor.\n\n"
         "Use Check for Updates… in the menu bar for later test builds.\n"
-        "Requires macOS 15 or newer. Supports Apple Silicon and Intel Macs.\n\n" + signed_note)
+        "Requires macOS 15 or newer. Supports Apple Silicon and Intel Macs.\n\n" + signed_note +
+        "\nLicensed under GPLv3. Source code for this release:\n"
+        f"https://github.com/{CONFIG['repository']}/tree/v{CONFIG['version']}\n")
 
     dmg = dist / f"CursorSwitch-{CONFIG['version']}.dmg"
     dmg.unlink(missing_ok=True)

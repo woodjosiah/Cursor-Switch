@@ -1,1 +1,1 @@
-- Show clicks with Pulse ring or Ripple, with customizable size and colors.
+- Optionally preserve macOS cursors for links, text, and window resizing (experimental).

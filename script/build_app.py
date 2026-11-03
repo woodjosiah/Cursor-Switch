@@ -46,6 +46,7 @@ def build_app(output: Path, *, universal=False, updates=False, identity="-"):
     shutil.copy2(bin_dir / "CursorSwitch", contents / "MacOS/CursorSwitch")
     run("ditto", framework, contents / "Frameworks/Sparkle.framework")
     shutil.copy2(SPARKLE / "LICENSE", contents / "Resources/Sparkle-LICENSE.txt")
+    shutil.copy2(ROOT / "LICENSE", contents / "Resources/LICENSE.txt")
 
     plist = {
         "CFBundleExecutable": "CursorSwitch",
